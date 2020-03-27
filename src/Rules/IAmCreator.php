@@ -2,6 +2,7 @@
 
 namespace Centeron\Permissions\Rules;
 
+use Centeron\Permissions\Contracts\AuthItem;
 use Centeron\Permissions\Contracts\Rule;
 
 /**
@@ -18,7 +19,7 @@ class IAmCreator implements Rule
      * @param array $params
      * @return bool
      */
-    public function handle($authItem, $model, $params = []): bool
+    public function handle(AuthItem $authItem, $model, $params = []): bool
     {
         $entityId = $params[0] ?? null;
 

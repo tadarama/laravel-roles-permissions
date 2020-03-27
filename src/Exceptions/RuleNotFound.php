@@ -2,6 +2,8 @@
 
 namespace Centeron\Permissions\Exceptions;
 
-class RuleNotFound  extends \Exception
+use Exception;
+
+class RuleNotFound  extends Exception
 {
 }

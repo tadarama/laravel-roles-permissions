@@ -2,6 +2,8 @@
 
 namespace Centeron\Permissions\Exceptions;
 
-class AuthItemNotFound extends \Exception
+use Exception;
+
+class AuthItemNotFound extends Exception
 {
 }

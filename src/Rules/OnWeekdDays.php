@@ -2,6 +2,7 @@
 
 namespace Centeron\Permissions\Rules;
 
+use Centeron\Permissions\Contracts\AuthItem;
 use Centeron\Permissions\Contracts\Rule;
 
 /**
@@ -18,7 +19,7 @@ class OnWeekdDays implements Rule
      * @param array $params
      * @return bool
      */
-    public function handle($authItem, $model, $params = []): bool
+    public function handle(AuthItem $authItem, $model, $params = []): bool
     {
         return date('N') <= 5;
     }
