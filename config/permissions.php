@@ -30,7 +30,7 @@ return [
          * By default all auth items (roles ans permisssions) cached for 24 hours unless
          * these items will updated by supplied functions for their manipulating
          */
-        'cache_lifetime' => 60 * 24
+        'cache_lifetime' => 60 * 24 * 60
     ],
     'errors' => [
         /**
