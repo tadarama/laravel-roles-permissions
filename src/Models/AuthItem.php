@@ -62,7 +62,7 @@ class AuthItem extends Model implements AuthItemContract
         if (!isset($attributes['type'])) {
             $attributes['type'] = static::TYPE_PERMISSION;
         }
-        if (static::where('name', $attributes['name'])->count()) {
+        if (static::query()->where('name', $attributes['name'])->count()) {
             throw new AuthItemAlreadyExist("Auth item with a name `{$attributes['name']}` already exists.");
         }
 
@@ -167,7 +167,7 @@ class AuthItem extends Model implements AuthItemContract
             ? app(CacheStorage::class)->getAuthItems()->filter(function($value) use($childIds) {
                 return ($value->type === static::TYPE_ROLE && in_array($value->id, $childIds));
             })
-            : static::whereIn('id', $childIds)
+            : static::query()->whereIn('id', $childIds)
                 ->where('type', static::TYPE_ROLE)
                 ->get();
     }
@@ -186,7 +186,7 @@ class AuthItem extends Model implements AuthItemContract
             ? app(CacheStorage::class)->getAuthItems()->filter(function($value) use($childIds) {
                 return ($value->type === static::TYPE_PERMISSION && in_array($value->id, $childIds));
             })
-            : static::whereIn('id', $childIds)
+            : static::query()->whereIn('id', $childIds)
                 ->where('type', static::TYPE_PERMISSION)
                 ->get();
     }
@@ -403,7 +403,7 @@ class AuthItem extends Model implements AuthItemContract
                 ? app(CacheStorage::class)->getAuthItems()->filter(function ($value) use($newItemNames) {
                     return in_array($value->name, $newItemNames);
                 })->pluck('id')->all()
-                : static::whereIn('name', $newItemNames)->pluck('id')->all();
+                : static::query()->whereIn('name', $newItemNames)->pluck('id')->all();
 
             if (count($newItemIdsFromName) !== count($newItemNames) && config('permissions.errors.forbid_missing_items')) {
                 throw new AuthItemNotFound('Some of items have not found by their names.');
@@ -426,7 +426,7 @@ class AuthItem extends Model implements AuthItemContract
             ? app(CacheStorage::class)->getAuthItems()->filter(function($value) use($ids) {
                 return ($value->rule && in_array($value->id, $ids));
             })
-            : static::whereNotNull('rule')->whereIn('id', $ids)->get();
+            : static::query()->whereNotNull('rule')->whereIn('id', $ids)->get();
     }
 
     /**
@@ -448,7 +448,7 @@ class AuthItem extends Model implements AuthItemContract
                 }
                 return false;
             })
-            : static::whereHas('assignments', function ($query) use($model, $modelId) {
+            : static::query()->whereHas('assignments', function ($query) use($model, $modelId) {
                 $query->where('model', $model)->where('model_id', $modelId);
             })->get();
     }
@@ -472,7 +472,7 @@ class AuthItem extends Model implements AuthItemContract
                 }
                 return false;
             })
-            : static::whereHas('assignments', function ($query) use($model, $modelId) {
+            : static::query()->whereHas('assignments', function ($query) use($model, $modelId) {
                 $query->where('model', $model)->where('model_id', $modelId);
             })->where('type', static::TYPE_ROLE)->get();
     }
@@ -496,7 +496,7 @@ class AuthItem extends Model implements AuthItemContract
                 }
                 return false;
             })
-            : static::whereHas('assignments', function ($query) use($model, $modelId) {
+            : static::query()->whereHas('assignments', function ($query) use($model, $modelId) {
                 $query->where('model', $model)->where('model_id', $modelId);
             })->where('type', static::TYPE_PERMISSION)->get();
     }

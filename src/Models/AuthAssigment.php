@@ -47,7 +47,7 @@ class AuthAssigment extends Model implements AuthAssigmentContract
      */
     public static function leaveOnlyNewItemIds (array $itemIds, $model, $modelId): array
     {
-        $existingItemIds = static::whereIn('auth_item_id', $itemIds)
+        $existingItemIds = static::query()->whereIn('auth_item_id', $itemIds)
             ->where('model', $model)
             ->where('model_id', $modelId)
             ->pluck('auth_item_id')
@@ -79,7 +79,7 @@ class AuthAssigment extends Model implements AuthAssigmentContract
             ];
         }
 
-        $result = static::insert($newItems);
+        $result = static::query()->insert($newItems);
 
         if ($result && config('permissions.cache.enable')) {
             app(CacheStorage::class)->forget();
@@ -98,7 +98,7 @@ class AuthAssigment extends Model implements AuthAssigmentContract
      */
     public static function remove(array $itemIds, $model, $modelId)
     {
-        $result = static::whereIn('auth_item_id', $itemIds)
+        $result = static::query()->whereIn('auth_item_id', $itemIds)
             ->where('model', $model)
             ->where('model_id', $modelId)
             ->delete();
