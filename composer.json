@@ -1,5 +1,5 @@
 {
-  "name": "liutauras/laravel-roles-permissions",
+  "name": "tadarama/laravel-roles-permissions",
   "description": "Simple but powerful package for handling roles and permissions in Laravel",
   "keywords": [
     "laravel",
